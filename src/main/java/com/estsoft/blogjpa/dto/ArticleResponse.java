@@ -4,7 +4,7 @@ import com.estsoft.blogjpa.domain.Article;
 import lombok.*;
 
 @Getter
-@Setter
+//@Setter
 //@AllArgsConstructor
 @NoArgsConstructor
 public class ArticleResponse {

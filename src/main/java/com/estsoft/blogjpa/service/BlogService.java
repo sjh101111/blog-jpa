@@ -1,20 +1,22 @@
 package com.estsoft.blogjpa.service;
 
 import com.estsoft.blogjpa.domain.Article;
+import com.estsoft.blogjpa.domain.Comment;
 import com.estsoft.blogjpa.dto.AddArticleRequest;
 import com.estsoft.blogjpa.external.ExampleAPIClient;
 import com.estsoft.blogjpa.repository.BlogRepository;
+import com.estsoft.blogjpa.repository.CommentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,10 +25,12 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final ExampleAPIClient apiClient;
 
-
-    public BlogService(BlogRepository blogRepository, ExampleAPIClient apiClient) {
+    private final CommentRepository commentRepository;
+    @Autowired
+    public BlogService(BlogRepository blogRepository, ExampleAPIClient apiClient, CommentRepository commentRepository) {
         this.blogRepository = blogRepository;
         this.apiClient = apiClient;
+        this.commentRepository = commentRepository;
     }
     public Article save(AddArticleRequest request) {
 
@@ -80,5 +84,17 @@ public class BlogService {
         return jsonMapList.stream()
                 .map(hashMap -> new Article(hashMap.get("title"), hashMap.get("body")))
                 .toList();
+    }
+
+    public Comment addCommentToArticle(Long articleId, String commentBody) {
+        Article article = blogRepository.findById(articleId)
+                .orElseThrow(() -> new EntityNotFoundException("Article not found with id: " + articleId));
+
+        Comment newComment = new Comment(article, commentBody);
+        return commentRepository.save(newComment);
+    }
+
+    public Comment showComment(Long id){
+        return commentRepository.findById(id).orElse(new Comment());
     }
 }

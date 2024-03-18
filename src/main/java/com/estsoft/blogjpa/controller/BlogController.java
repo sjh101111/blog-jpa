@@ -1,8 +1,11 @@
 package com.estsoft.blogjpa.controller;
 
 import com.estsoft.blogjpa.domain.Article;
+import com.estsoft.blogjpa.domain.Comment;
 import com.estsoft.blogjpa.dto.AddArticleRequest;
 import com.estsoft.blogjpa.dto.ArticleResponse;
+import com.estsoft.blogjpa.dto.CommentAddDto;
+import com.estsoft.blogjpa.dto.CommentShowDto;
 import com.estsoft.blogjpa.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,9 +54,25 @@ public class BlogController {
     @PutMapping("/api/articles/{id}")
     public ResponseEntity<Article> update(@PathVariable Long id,
                                           @RequestBody AddArticleRequest request) {
-        Article article = blogService.update(id, request);
-//        Article article = blogService.updateTitle(id, request);
+//        Article article = blogService.update(id, request);
+        Article article = blogService.updateTitle(id, request);
 
         return ResponseEntity.ok(article);
     }
+
+    @PostMapping("/comments/{articleId}")
+    public ResponseEntity<CommentAddDto> addComment(@PathVariable Long articleId,
+                                                    @RequestBody Comment comment) {
+        Comment comments = blogService.addCommentToArticle(articleId, comment.getBody());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(comments.toDto());
+    }
+
+    @GetMapping("/comments/{articleId}/{commentId}")
+    public ResponseEntity<CommentShowDto> showComment(@PathVariable Long articleId,
+                                                      @PathVariable Long commentId) {
+        Comment comment = blogService.showComment(commentId);
+        return ResponseEntity.ok(comment.toShowDto());
+    }
+
 }

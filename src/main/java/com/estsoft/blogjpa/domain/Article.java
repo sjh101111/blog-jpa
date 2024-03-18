@@ -26,6 +26,7 @@ public class Article {
 
     @Column(name = "content", nullable = false)
     private String content;
+
     @Builder
     public Article(String title, String content) {
         this.title = title;
@@ -38,8 +39,8 @@ public class Article {
     }
 
     public void update(String title, String content) {
-        this.title= title;
-        this.content=content;
+        this.title = title;
+        this.content = content;
     }
 
     @CreatedDate
@@ -49,4 +50,13 @@ public class Article {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToOne(mappedBy = "article")
+    private Comment comment;
+
+    public Comment getComment(Long id) {
+        return this.comment;
+    }
+
+
 }
