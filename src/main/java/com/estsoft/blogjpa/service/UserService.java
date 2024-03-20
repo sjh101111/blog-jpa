@@ -6,10 +6,9 @@ import com.estsoft.blogjpa.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-//@RequiredArgsConstructor
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
     private BCryptPasswordEncoder encoder;
 
     public UserService(UserRepository userRepository, BCryptPasswordEncoder encoder) {
@@ -18,13 +17,11 @@ public class UserService {
     }
 
     public User save(AddUserRequest dto) {
-        return userRepository.save(
-                User.builder()
-                        .email(dto.getEmail())
-                        .password(encoder.encode(dto.getPassword()))    // 패스워드 암호화
-                        .build()
-        );
+        return userRepository.save(User
+                .builder()
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .build());
     }
 
-//    public void save()
 }
