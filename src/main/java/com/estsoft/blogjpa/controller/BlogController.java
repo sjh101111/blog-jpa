@@ -55,7 +55,7 @@ public class BlogController {
     public ResponseEntity<Article> update(@PathVariable Long id,
                                           @RequestBody AddArticleRequest request) {
 //        Article article = blogService.update(id, request);
-        Article article = blogService.updateTitle(id, request);
+        Article article = blogService.update(id, request);
 
         return ResponseEntity.ok(article);
     }

@@ -106,27 +106,29 @@ class BlogControllerTest {
         Assertions.assertFalse(byid.isPresent());
     }
 
-    @Transactional
+//    @Transactional
     @Test
     void update() throws Exception {
         // given : 저장할 데이터
         Article article = blogRepository.save(new Article("제목", "내용"));
         Long id = article.getId();
 
-        article.update("title","content");
+        AddArticleRequest articleRequest = new AddArticleRequest("a", "a");
         // when : UPDATE /api/articles/{id}
         ResultActions resultActions = mockMvc.perform(put("/api/articles/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(article)));
+                .content(objectMapper.writeValueAsString(articleRequest)));
 
+        Article updateTest = blogRepository.findById(id).orElseThrow();
+        //수정 후 다시 조회
         // then : 삭제 결과 확인
         resultActions.andExpect(status().isOk())
-//                .andExpect(jsonPath("title").value(article.getTitle()))
-//                .andExpect(jsonPath("content").value(article.getContent()))
+                .andExpect(jsonPath("title").value(updateTest.getTitle()))
+                .andExpect(jsonPath("content").value(updateTest.getContent()))
         ;
         // 삭제 결과
-        Article updateTest = blogRepository.findById(id).orElseThrow();
-        assertThat(updateTest.getTitle()).isEqualTo("title");
-        assertThat(updateTest.getContent()).isEqualTo("content");
+//        Article updateTest = blogRepository.findById(id).orElseThrow();
+        assertThat(updateTest.getTitle()).isEqualTo("a");
+        assertThat(updateTest.getContent()).isEqualTo("a");
     }
 }
