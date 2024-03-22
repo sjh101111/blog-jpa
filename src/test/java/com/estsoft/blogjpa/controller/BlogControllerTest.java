@@ -106,7 +106,6 @@ class BlogControllerTest {
         Assertions.assertFalse(byid.isPresent());
     }
 
-//    @Transactional
     @Test
     void update() throws Exception {
         // given : 저장할 데이터
