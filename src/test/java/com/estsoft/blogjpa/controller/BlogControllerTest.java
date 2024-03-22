@@ -106,6 +106,7 @@ class BlogControllerTest {
         Assertions.assertFalse(byid.isPresent());
     }
 
+    //pr충돌테스트
     @Test
     void update() throws Exception {
         // given : 저장할 데이터
