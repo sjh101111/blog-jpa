@@ -130,4 +130,9 @@ class BlogControllerTest {
         assertThat(updateTest.getTitle()).isEqualTo("a");
         assertThat(updateTest.getContent()).isEqualTo("a");
     }
+
+    @Test
+    public void updateTest() {
+        //업데잍 테스트 코드 추가
+    }
 }
