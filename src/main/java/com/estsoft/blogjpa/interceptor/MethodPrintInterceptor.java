@@ -18,8 +18,8 @@ public class MethodPrintInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        log.info("MethodPrintInterceptor postHandle() - {}", handlerMethod.getMethod().getName());
+//        HandlerMethod handlerMethod = (HandlerMethod) handler;
+//        log.info("MethodPrintInterceptor postHandle() - {}", handlerMethod.getMethod().getName());
     }
 
     @Override

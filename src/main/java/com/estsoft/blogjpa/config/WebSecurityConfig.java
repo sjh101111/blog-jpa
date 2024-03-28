@@ -16,7 +16,8 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() { // 스프링시큐리티 비활성화
         return web -> web.ignoring().requestMatchers(toH2Console())
-                .requestMatchers("/static/**");
+                .requestMatchers("/static/**","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html"
+                );
     }
 
     // 특정 http 요청에 대한 웹 기반 보안 구성
