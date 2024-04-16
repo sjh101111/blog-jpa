@@ -15,7 +15,8 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() { // 스프링시큐리티 비활성화
-        return web -> web.ignoring().requestMatchers(toH2Console())
+        return web -> web.ignoring()
+//                .requestMatchers(toH2Console())
                 .requestMatchers("/static/**","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html"
                 );
     }
